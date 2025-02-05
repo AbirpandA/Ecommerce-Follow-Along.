@@ -8,7 +8,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
+    //  login logic here
   };
 
   return (
