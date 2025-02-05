@@ -1,10 +1,9 @@
 # Ecommerce-Follow-Along.
 
 
+### * Milestone1 : Project Overview: E-Commerce Application/ (MERN Stack)*
 
-### * Milestone1 : Project Overview: E-Commerce Application (MERN Stack)*
-
-This project will guide you through building a full-stack e-commerce web application using the *MERN stack* (MongoDB, Express.js, React.js, Node.js). You will learn how to implement key functionalities such as *user authentication, **product management, and **order handling* while gaining hands-on experience with REST APIs, database schema design, and frontend development with React.
+This project will guide me through building a full-stack e-commerce web application using the *MERN stack* (MongoDB, Express.js, React.js, Node.js). I will learn how to implement key functionalities such as *user authentication, **product management, and **order handling* while gaining hands-on experience with REST APIs, database schema design, and frontend development with React.
 
 ---
 
@@ -25,10 +24,18 @@ This project will guide you through building a full-stack e-commerce web applica
 
 ---
 
+### *Milestone 2: Login Page and Platform Concept*
+- Developed the **login page** with secure authentication.
+- The platform is named **The Gilded Gallery**.
+- **Design Inspiration:** Influenced by old-era art and minimalistic aesthetics.
+
+---
+
 ### *Next Steps:*
 1. Set up the **development environment** and install dependencies.
 2. Implement a **basic server** using Node.js and Express.
 3. Start building the **React frontend** and connect it to the backend.
 4. Design **MongoDB schemas** for structured data storage.
 
-This project will help you master the full-stack development process, from database to frontend, with a focus on scalability and user interaction.
+This project will help me master the full-stack development process, from database to frontend, with a focus on scalability and user interaction.
+
