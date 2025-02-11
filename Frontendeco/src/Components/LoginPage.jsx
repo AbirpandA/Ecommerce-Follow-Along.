@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
 
 const LoginPage = () => {
@@ -15,7 +15,7 @@ const LoginPage = () => {
     <>
     <div className="min-h-screen flex items-center justify-center bg-stone-50">
       {/* Main Container */}
-      <div className="w-full max-w-md p-8 space-y-8">
+      <div className="w-full max-w-md p-8 space-y-8 ">
         {/* Header Section */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-serif text-stone-800">The Gilded Gallery</h1>
