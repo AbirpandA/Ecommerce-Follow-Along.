@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const bodyparser = require('body-parser')
+const userRouter= require('./routes/userRoute')
 
 const app = express();
 
@@ -8,8 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+app.use(bodyparser.json())
+
+
 
 // Routes
+app.use('/auth',userRouter)
+
+
 
 
 module.exports = app;
