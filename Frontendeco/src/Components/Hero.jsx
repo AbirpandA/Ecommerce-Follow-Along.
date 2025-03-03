@@ -36,7 +36,7 @@ const Hero = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="px-8 py-3 border-2 border-[#a67c52] text-[#e8e4d9] rounded-md transition-all duration-300 font-serif text-lg"
+            className="px-8 py-3 border-2 border-[#a67c52] text-[#e8e4d9] rounded-md transition-all duration-300 font-serif text-lg hover:bg-[#a67c52c0]"
           >
             Our Philosophy
           </motion.button>
