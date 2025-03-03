@@ -1,5 +1,7 @@
-import { LoginPage, SignUpPage } from "./Routes"
+import { LoginPage, SignUpPage,GildedGalleryHomepage } from "./Routes"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+
 
 const App = () => {
   return (
@@ -8,10 +10,13 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/Home" element={<GildedGalleryHomepage />} />
+          
         </Routes>
       </BrowserRouter>
     </>
   )
 }
+
 
 export default App
