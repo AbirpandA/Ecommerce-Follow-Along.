@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ShoppingBag, Search } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -28,10 +29,10 @@ const Header = () => {
         {/* Icons */}
         <div className="flex items-center space-x-4">
           <button className="hover:text-[#d9b48f] transition-colors duration-300">
-            🔍
+            <Search />
           </button>
           <button className="hover:text-[#d9b48f] transition-colors duration-300">
-            🛒
+            <ShoppingBag />
           </button>
           <button className="md:hidden hover:text-[#d9b48f] transition-colors duration-300">
             ☰

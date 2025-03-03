@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { BookOpen } from 'lucide-react';
 
 const Quote = () => {
   return (
@@ -8,6 +9,7 @@ const Quote = () => {
       transition={{ duration: 1.2, ease: "easeOut" }}
       className="py-50 bg-[#1e2d40] text-[#e8e4d9] text-center"
     >
+      
       <blockquote className="text-3xl md:text-4xl font-serif italic">
         "Art is never finished, only abandoned."
       </blockquote>

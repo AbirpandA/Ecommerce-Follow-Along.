@@ -11,7 +11,7 @@ const Hero = () => {
       {/* Decorative Image (Behind Text) */}
       <div className="absolute inset-0 flex justify-center items-center">
         <img 
-          src="https://nigelip.com/wp-content/uploads/2014/04/veronese-magnificence-in-renaissance-venice-at-national-gallery-rosie-yang-the-upcoming-6-taboofart-com.jpg" 
+          src="https://cms.nationalmuseumsni.org/sites/default/files/styles/responsive/public/1096/618/1/2022-12/Renaissance%201095x616.jpg" 
           alt="Decorative Art" 
           className="w-[70%] md:w-[50%] opacity-80"
         />
