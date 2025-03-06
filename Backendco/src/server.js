@@ -1,8 +1,12 @@
 require("dotenv").config();
 const app = require("./app");
-require("./config/db"); // Just requiring this runs the connection
+const connectDb  = require("./config/db"); // Just requiring this runs the connection
+const cors = require('cors')
 
-const PORT = 4800;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+connectDb();
+app.use(cors())
+
+const Port = process.env.port || 3600;
+app.listen(Port, () => {
+    console.log(`🚀 Server running at http://localhost:${Port}`);
 });

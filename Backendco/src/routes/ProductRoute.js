@@ -1,28 +1,30 @@
 const express = require("express");
-const Product = require("../models/ProductsSchema"); 
+const Product = require("../models/ProductsSchema");
+const upload = require("../middlewares/multer"); 
 
 const router = express.Router();
 
+router.post("/addproduct", upload.array("images", 5), async (req, res) => {
+  try {
+    const { name, price, description, stock, category } = req.body;
 
-router.post("/addproduct", async (req, res) => {
-    try {
-       
-        const { name, category, description, price, stock } = req.body;
-
-        if (!name || !category || !description || price == null || stock == null) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-
-      
-        const newProduct = new Product(req.body);
-
-        
-        const savedProduct = await newProduct.save();
-
-        res.status(201).json(savedProduct);
-    } catch (error) {
-        res.status(500).json({ message: "Error creating product", error: error.message });
+    if (!name || !price || !description || !stock || !category) {
+      return res.status(400).json({ message: "Please fill all the fields." });
     }
+
+    // Get image paths from multer
+    const imagePaths = req.files.map(file => `${req.protocol}://${req.get('host')}/${file.path}`);
+
+
+    const product = new Product({ ...req.body, images: imagePaths });
+    const savedProduct = await product.save();
+
+    res.status(200).json({ message: "Product added successfully!", product: savedProduct });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to add product.", error: err.message });
+  }
 });
 
 module.exports = router;
+

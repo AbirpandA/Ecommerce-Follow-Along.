@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Upload, Plus, Sparkles, ArrowRight } from 'lucide-react';
+import axios from "axios"
 
 const ProductForm = () => {
   const [formData, setFormData] = useState({
@@ -109,7 +110,7 @@ const ProductForm = () => {
     
     // Add images
     images.forEach(image => {
-      productData.append('productImages', image);
+      productData.append('images', image);
     });
     
     // Here you would normally send this data to your backend
@@ -117,8 +118,16 @@ const ProductForm = () => {
     console.log("Images to upload:", images);
     
     // API call would go here
+    try{
+      axios.post("http://localhost:8000/products/addproduct", productData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });      
+    }catch(err){
+      console.log(err.message)
+    }
+
     
-    
+
     // Reset form after submission
     setFormData({
       name: '',
@@ -455,6 +464,7 @@ const ProductForm = () => {
             <button
               type="submit"
               className="w-full bg-gradient-to-r from-emerald-800 to-emerald-700 text-white py-4 px-6 rounded-md hover:from-emerald-900 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 transition-all duration-300 shadow-lg font-serif text-lg"
+            
             >
               <span className="flex items-center justify-center">
                 <Sparkles size={18} className="mr-2 text-amber-200" />

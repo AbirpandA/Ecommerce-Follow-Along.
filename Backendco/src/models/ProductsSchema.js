@@ -69,7 +69,6 @@ const ProductSchema = new Schema({
     type: String,
     required: false,
     enum: [
-      '',
       'Renaissance',
       'Baroque',
       'Medieval',
