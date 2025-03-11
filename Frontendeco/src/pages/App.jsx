@@ -1,7 +1,5 @@
-import { LoginPage, SignUpPage,GildedGalleryHomepage,ProductForm } from "./Routes"
+import { LoginPage, SignUpPage, GildedGalleryHomepage, ProductForm, CartPage } from "./Routes"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-
-
 
 const App = () => {
   return (
@@ -10,14 +8,13 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/Home" element={<GildedGalleryHomepage />} />
-          <Route path="/Add-product" element={<ProductForm />} />
-          
+          <Route path="/home" element={<GildedGalleryHomepage />} />
+          <Route path="/add-product" element={<ProductForm />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </BrowserRouter>
     </>
   )
 }
-
 
 export default App

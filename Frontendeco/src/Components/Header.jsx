@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -12,15 +13,16 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Custom SVG Logo */}
         <div className="flex items-center space-x-2">
-          <svg className="h-15 w-20 text-[#a67c52]" viewBox="0 0 100 100" fill="currentColor">
-            <text x="10" y="70" fontSize="60" fontFamily="serif">G</text>
-          </svg>
-          
+          <Link to="/Home">
+            <svg className="h-15 w-20 text-[#a67c52]" viewBox="0 0 100 100" fill="currentColor">
+              <text x="10" y="70" fontSize="60" fontFamily="serif">G</text>
+            </svg>
+          </Link>
         </div>
 
         {/* Navbar Links */}
         <nav className="hidden md:flex space-x-8 font-serif">
-          <a href="#" className="hover:text-[#d9b48f] transition-colors duration-300">Home</a>
+          <Link to="/Home" className="hover:text-[#d9b48f] transition-colors duration-300">Home</Link>
           <a href="#" className="hover:text-[#d9b48f] transition-colors duration-300">Collections</a>
           <a href="#" className="hover:text-[#d9b48f] transition-colors duration-300">Atelier</a>
           <a href="#" className="hover:text-[#d9b48f] transition-colors duration-300">About</a>
@@ -31,9 +33,9 @@ const Header = () => {
           <button className="hover:text-[#d9b48f] transition-colors duration-300">
             <Search />
           </button>
-          <button className="hover:text-[#d9b48f] transition-colors duration-300">
+          <Link to="/cart" className="hover:text-[#d9b48f] transition-colors duration-300">
             <ShoppingBag />
-          </button>
+          </Link>
           <button className="md:hidden hover:text-[#d9b48f] transition-colors duration-300">
             ☰
           </button>
