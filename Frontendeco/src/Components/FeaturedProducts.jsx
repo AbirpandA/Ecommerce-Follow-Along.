@@ -1,82 +1,65 @@
-
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
+import { useEffect, useState } from "react";  // ✅ Correct import
+import axios from "axios";
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Handcrafted Violin",
-    price: 895,
-    description: "Italian craftsmanship with aged maple wood",
-    image: "/api/placeholder/300/400",
-    category: "Instruments"
-  },
-  {
-    id: 2,
-    name: "Renaissance Paintbrush Set",
-    price: 125,
-    description: "Authentic sable brushes with walnut handles",
-    image: "/api/placeholder/300/400",
-    category: "Painting"
-  },
-  {
-    id: 3,
-    name: "Italian Leather Journal",
-    price: 79,
-    description: "Hand-bound with Florentine marbled endpapers",
-    image: "/api/placeholder/300/400",
-    category: "Writing"
-  },
-  {
-    id: 4,
-    name: "Venetian Chess Set",
-    price: 349,
-    description: "Hand-carved pieces inspired by 16th century designs",
-    image: "/api/placeholder/300/400",
-    category: "Games"
-  },
-  
-];
-
-// Animation variants
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { 
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-      duration: 0.6 
-    }
-  }
-};
-
-const titleVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
-const buttonVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { 
-    opacity: 1, 
-    scale: 1,
-    transition: { delay: 0.8, duration: 0.5 }
-  },
-  hover: { 
-    scale: 1.05,
-    transition: { duration: 0.2 }
-  },
-  tap: { scale: 0.98 }
-};
+const API_URL = "http://localhost:8000";
 
 const FeaturedProducts = () => {
+  const [featuredProducts, setfeaturedProducts] = useState([]);  // ✅ Moved inside component
+
+  // Function to fetch data from backend using axios
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/product/productdata`);
+      setfeaturedProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Animation variants
+  const sectionVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+        duration: 0.6,
+      },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 0.8, duration: 0.5 },
+    },
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.2 },
+    },
+    tap: { scale: 0.98 },
+  };
+
   return (
-    <motion.section 
+    <motion.section
       className="py-20 bg-[#e8e4d9]"
       initial="hidden"
       whileInView="visible"
@@ -92,15 +75,19 @@ const FeaturedProducts = () => {
             Discover our finest curated artifacts, each echoing the spirit of Renaissance craftsmanship
           </motion.p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {featuredProducts && featuredProducts.length > 0 ? (
+            featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <p>No featured products available at the moment.</p>
+          )}
         </div>
-        
+
         <div className="text-center mt-12">
-          <motion.button 
+          <motion.button
             className="px-6 py-2 border-2 border-primary text-primary rounded-md hover:bg-primary hover:text-primary transition-colors duration-300 font-serif"
             variants={buttonVariants}
             whileHover="hover"

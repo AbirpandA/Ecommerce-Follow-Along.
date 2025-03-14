@@ -26,5 +26,9 @@ router.post("/addproduct", upload.array("images", 5), async (req, res) => {
   }
 });
 
+router.get('/productdata',(req,res)=>{
+  res.send(product)
+})
+
 module.exports = router;
 
