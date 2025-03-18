@@ -6,7 +6,7 @@ const cors = require('cors')
 connectDb();
 app.use(cors())
 
-const Port = process.env.port || 3600;
+const Port = process.env.port ;
 app.listen(Port, () => {
     console.log(`🚀 Server running at http://localhost:${Port}`);
 });

@@ -14,6 +14,7 @@ router.post("/addproduct", upload.array("images", 5), async (req, res) => {
 
     // Get image paths from multer
     const imagePaths = req.files.map(file => `${req.protocol}://${req.get('host')}/${file.path}`);
+    console.log(imagePaths)
 
 
     const product = new Product({ ...req.body, images: imagePaths });
@@ -26,9 +27,15 @@ router.post("/addproduct", upload.array("images", 5), async (req, res) => {
   }
 });
 
-router.get('/productdata',(req,res)=>{
-  res.send(product)
-})
+router.get('/productdata', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to retrieve products.", error: err.message });
+  }
+});
+
 
 module.exports = router;
 

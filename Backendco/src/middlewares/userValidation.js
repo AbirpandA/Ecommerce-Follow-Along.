@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const signUpvalidation = (req, res, next) => {
   const schema = Joi.object().keys({
-    name: Joi.string().required(),
+    username: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     confirmPassword: Joi.string().required().valid(Joi.ref("password")),
