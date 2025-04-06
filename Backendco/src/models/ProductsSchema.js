@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const user = require('./user')
 
 const ProductSchema = new Schema({
   // Basic product information
@@ -124,6 +125,10 @@ const ProductSchema = new Schema({
       type: Number,
       default: 0
     }
+  },
+  seller:{
+    type : mongoose.Schema.ObjectId,
+    ref:'user'
   },
   
   // Timestamp

@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
     >
       <div className="relative h-64 overflow-hidden">
         <motion.img 
-          src={product.image} 
+          src={product.img} 
           alt={product.name} 
           className="w-full h-full object-cover"
           whileHover={{ scale: 1.05 }}

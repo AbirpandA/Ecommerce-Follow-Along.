@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
-import { useEffect, useState } from "react";  // ✅ Correct import
+import { useEffect, useState } from "react";  
 import axios from "axios";
 
 const API_URL = "http://localhost:8000";
 
 const FeaturedProducts = () => {
-  const [featuredProducts, setfeaturedProducts] = useState([]);  // ✅ Moved inside component
+  const [featuredProducts, setfeaturedProducts] = useState([]);  
 
   // Function to fetch data from backend using axios
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${API_URL}/product/productdata`);
+      const response = await axios.get(`${API_URL}/products/productsData`);
       setfeaturedProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);

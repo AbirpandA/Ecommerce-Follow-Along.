@@ -119,9 +119,7 @@ const ProductForm = () => {
     
     // API call would go here
     try{
-      axios.post("http://localhost:8000/products/addproduct", productData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });      
+      axios.post("http://localhost:8000/products/add", productData);      
     }catch(err){
       console.log(err.message)
     }
