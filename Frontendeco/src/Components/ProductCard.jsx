@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// Animation variants for the card
+
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { 
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
     >
       <div className="relative h-64 overflow-hidden">
         <motion.img 
-          src={product.img} 
+          src={product.images?.[0]} 
           alt={product.name} 
           className="w-full h-full object-cover"
           whileHover={{ scale: 1.05 }}

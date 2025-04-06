@@ -67,13 +67,25 @@ const getUserProducts = async (req, res) => {
     }
 };
 
-const productData = async(req,res)=>{
+const productsData = async(req,res)=>{
     try{
         const products = await Product.find()
-        res.status(200).json({products})
+        res.status(200).json(products)
     }catch(err){
-        res.status(500).json({ message: "Error fetching user's products", error: error.message });
+        res.status(500).json({ message: "Error fetching user's products", error: err.message });
     }
+}
+
+const productData = async(req,res)=>{
+  try{
+      const product = await Product.findById(req.params.id)
+      if(!product){
+        return res.json({message:'cant find the product'})
+      }
+      res.status(200).json(product)
+  }catch(err){
+      res.status(500).json({ message: "Error fetching user's products", error: err.message });
+  }
 }
 
 module.exports = {
@@ -81,5 +93,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getUserProducts,
+    productsData,
     productData
 };

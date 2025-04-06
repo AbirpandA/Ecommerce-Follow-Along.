@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";  
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:8000";
 
@@ -78,8 +79,11 @@ const FeaturedProducts = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {featuredProducts && featuredProducts.length > 0 ? (
-            featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            featuredProducts.map((product) => ( 
+              <Link to={`/product/${product._id}` } key={product._id}>
+
+                <ProductCard  product={product} />
+              </Link>
             ))
           ) : (
             <p>No featured products available at the moment.</p>
