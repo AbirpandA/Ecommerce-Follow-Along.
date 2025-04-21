@@ -34,8 +34,8 @@ const login = async (req, res) => {
     if (!isValidPassword) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    const token = jwt.sign({ user }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+    const token = jwt.sign( {_id: user._id, email: user.email} , process.env.SECRET_KEY, {
+      expiresIn: "5h",
     });
     res.status(200).json({ token, userId: user._id });
   } catch (err) {
@@ -44,7 +44,18 @@ const login = async (req, res) => {
   }
 };
 
+const profile=async(req,res)=>{
+  try{
+    const user=await User.findById(req.user._id)
+    const { password, ...userWithoutPass } = user.toObject()
+    console.log(userWithoutPass)
+    res.json({userWithoutPass})
+  }catch(err){
+    res.status(500).json({error:err.mrssage})
+  }
+}
 module.exports = {
   signUp,
   login,
+  profile
 };

@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
-// Mock user data based on the provided schema
-const mockUser = {
-  name: "Isabella Medici",
-  email: "isabella@gildedgallery.com",
-  gender: "Female",
-  address: "1428 Florentine Avenue, Renaissance Heights, IT 52101",
-  profilePic: "/api/placeholder/150/150",
-};
-
+// Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -25,11 +18,65 @@ const staggerContainer = {
   },
 };
 
-export default function Profilecomponent() {
-  const [user, setUser] = useState(mockUser);
+// Default user data if some fields are missing from API response
+const defaultUser = {
+  username: "Guest User",
+  email: "guest@example.com",
+  gender: "None",
+  address: "None",
+  profilePic: "/api/placeholder/150/150",
+};
+
+export default function ProfileComponent() {
+  const [user, setUser] = useState(defaultUser);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user);
   const [activeTab, setActiveTab] = useState("profile");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch user profile data when component mounts
+    fetchUserProfile();
+  }, []);
+
+  const fetchUserProfile = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Get token from localStorage
+      const token = localStorage.getItem('token');
+      // console.log(token);
+      
+      if (!token) {
+        throw new Error("Authentication token not found. Please login again.");
+      }
+      
+      // Make API request with token in headers
+      const response = await axios.get('http://localhost:8000/auth/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      // console.log(response.data)
+      
+      // Merge API response with default values for any missing fields
+      const userData = {
+        ...defaultUser,
+        ...response.data.userWithoutPass,
+      };
+      // console.log(userData)
+      
+      setUser(userData);
+      setEditedUser(userData);
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+      setError(err.message || "Failed to load profile data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     setEditedUser({
@@ -42,8 +89,34 @@ export default function Profilecomponent() {
     e.preventDefault();
     setUser(editedUser);
     setIsEditing(false);
-    // Here you would make an API call to update the user profile
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#1e2d40] min-h-screen text-[#e8e4d9] font-serif flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl">Loading profile data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-[#1e2d40] min-h-screen text-[#e8e4d9] font-serif flex items-center justify-center">
+        <div className="text-center bg-[#243447] p-8 rounded-md border border-[#a67c52] max-w-md">
+          <h2 className="text-2xl mb-4">Error</h2>
+          <p className="mb-6">{error}</p>
+          <button 
+            onClick={fetchUserProfile}
+            className="px-6 py-2 bg-[#a67c52] text-[#e8e4d9] rounded-md hover:bg-[#b68d63] transition-colors duration-300"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#1e2d40] min-h-screen text-[#e8e4d9] font-serif pt-17 px-4">
@@ -63,7 +136,7 @@ export default function Profilecomponent() {
               >
                 <img
                   src={user.profilePic}
-                  alt={user.name}
+                  alt={user.username}
                   className="rounded-full w-36 h-36 object-cover border-4 border-[#a67c52] shadow-lg"
                 />
               </motion.div>
@@ -72,7 +145,7 @@ export default function Profilecomponent() {
                 className="text-2xl font-serif text-[#e8e4d9] mb-2"
                 variants={fadeIn}
               >
-                {user.name}
+                {user.username}
               </motion.h2>
 
               <motion.p
@@ -168,12 +241,12 @@ export default function Profilecomponent() {
                       <div className="space-y-6">
                         <motion.div variants={fadeIn}>
                           <label className="block text-[#b5b0a3] mb-2 text-sm">
-                            NAME
+                            USERNAME
                           </label>
                           <input
                             type="text"
-                            name="name"
-                            value={editedUser.name}
+                            name="username"
+                            value={editedUser.username}
                             onChange={handleChange}
                             className="w-full p-3 bg-[#1a2736] border border-[#3d4e64] rounded-md text-[#e8e4d9] focus:border-[#a67c52] focus:outline-none"
                           />
@@ -198,13 +271,14 @@ export default function Profilecomponent() {
                           </label>
                           <select
                             name="gender"
-                            value={editedUser.gender}
+                            value={editedUser.gender || "None"}
                             onChange={handleChange}
                             className="w-full p-3 bg-[#1a2736] border border-[#3d4e64] rounded-md text-[#e8e4d9] focus:border-[#a67c52] focus:outline-none"
                           >
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
+                            <option value="None">Prefer not to say</option>
                           </select>
                         </motion.div>
 
@@ -214,7 +288,7 @@ export default function Profilecomponent() {
                           </label>
                           <textarea
                             name="address"
-                            value={editedUser.address}
+                            value={editedUser.address || "None"}
                             onChange={handleChange}
                             className="w-full p-3 bg-[#1a2736] border border-[#3d4e64] rounded-md text-[#e8e4d9] focus:border-[#a67c52] focus:outline-none"
                             rows="3"
@@ -251,9 +325,9 @@ export default function Profilecomponent() {
                         className="border-b border-[#3d4e64] pb-4"
                       >
                         <h4 className="text-sm text-[#b5b0a3] mb-2">
-                          FULL NAME
+                          USERNAME
                         </h4>
-                        <p className="text-[#e8e4d9] text-lg">{user.name}</p>
+                        <p className="text-[#e8e4d9] text-lg">{user.username}</p>
                       </motion.div>
 
                       <motion.div
@@ -269,12 +343,19 @@ export default function Profilecomponent() {
                         className="border-b border-[#3d4e64] pb-4"
                       >
                         <h4 className="text-sm text-[#b5b0a3] mb-2">GENDER</h4>
-                        <p className="text-[#e8e4d9] text-lg">{user.gender}</p>
+                        <p className="text-[#e8e4d9] text-lg">{user.gender || "None"}</p>
                       </motion.div>
 
                       <motion.div variants={fadeIn}>
                         <h4 className="text-sm text-[#b5b0a3] mb-2">ADDRESS</h4>
-                        <p className="text-[#e8e4d9] text-lg">{user.address}</p>
+                        <p className="text-[#e8e4d9] text-lg">{user.address || "None"}</p>
+                      </motion.div>
+
+                      <motion.div variants={fadeIn}>
+                        <h4 className="text-sm text-[#b5b0a3] mb-2">MEMBER SINCE</h4>
+                        <p className="text-[#e8e4d9] text-lg">
+                          {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "None"}
+                        </p>
                       </motion.div>
                     </motion.div>
                   )}

@@ -1,21 +1,50 @@
-import  { useState } from 'react';
-import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { Lock, Mail, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //  login logic here
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      // Connect to backend /auth/login endpoint
+      const response = await axios.post('http://localhost:8000/auth/login', {
+        email,
+        password
+      });
+      
+      // Store the token in localStorage
+      localStorage.setItem('token', response.data.token);
+      
+      // Redirect to profile page on successful login
+      navigate('/profile');
+    } catch (err) {
+      // Handle error responses
+      setError(
+        err.response?.data?.message || 
+        'Login failed. Please check your credentials and try again.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
     <div className="min-h-screen flex items-center justify-center bg-stone-50">
       {/* Main Container */}
-      <div className="w-full max-w-md p-8 space-y-8 ">
+      <div className="w-full max-w-md p-8 space-y-8">
         {/* Header Section */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-serif text-stone-800">The Gilded Gallery</h1>
@@ -32,6 +61,14 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 text-red-700 p-4 rounded-lg flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -75,22 +112,25 @@ const LoginPage = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-stone-800 text-white rounded-lg hover:bg-stone-700 transition-colors duration-200 font-medium"
+            disabled={isLoading}
+            className={`w-full py-3 bg-stone-800 text-white rounded-lg hover:bg-stone-700 transition-colors duration-200 font-medium flex items-center justify-center ${
+              isLoading ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
           >
-            Enter the Gallery
+            {isLoading ? 'Please wait...' : 'Enter the Gallery'}
           </button>
         </form>
 
         {/* Footer Links */}
         <div className="text-center space-y-4">
-          <a href="#" className="block text-stone-600 hover:text-red-400 text-sm">
+          <Link to="/forgot-password" className="block text-stone-600 hover:text-red-400 text-sm">
             Forgot your password?
-          </a>
+          </Link>
           <div className="text-stone-400 text-sm">
             New to The Gilded Gallery?{' '}
-            <a href="#" className="text-stone-600 hover:text-stone-800">
+            <Link to="/signup" className="text-stone-600 hover:text-stone-800">
               Create an account
-            </a>
+            </Link>
           </div>
         </div>
 
